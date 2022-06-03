@@ -2,6 +2,13 @@
 
 @{
     ViewData["Title"] = "顧客訂單列表";
+    string ErrorMessage = TempData["ErrorMessage"]?.ToString() ?? string.Empty;
+    if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <script>
+            alert("@ErrorMessage");
+        </script>
+    }
 }
 <h1>顧客訂單列表</h1>
 
@@ -15,7 +22,13 @@
                 @Html.DisplayNameFor(model => model.CustomerId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CustomerMoney)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Fid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.FoodMoney)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderDatetime)
@@ -34,7 +47,13 @@
                     @Html.DisplayFor(modelItem => item.CustomerName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CustomerMoney)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.FoodName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.FoodMoney)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderDatetime)
@@ -44,7 +63,8 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">編輯</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">刪除</a>
+                    <a asp-action="PayFoodOrder" asp-route-id="@item.Id" class="btn btn-dark @(item.PaidDateTime!=null?"d-none":"")">扣款</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @(item.PaidDateTime!=null?"":"d-none")">刪除</a>
                 </td>
             </tr>
         }

@@ -29,14 +29,16 @@ namespace Homwwork_20220529.Controllers
                                                      join custom in _context.TblCustomers
                                                      on main.CustomerId equals custom.Id
                                                      join food in _context.TblFoods
-                                                     on main.Id equals food.Id
+                                                     on main.Fid equals food.Id
                                                      select new FoodOrderViewModel
                                                      {
                                                          Id = main.Id,
                                                          CustomerId = custom.Id,
                                                          CustomerName = custom.Name,
+                                                         CustomerMoney = custom.Money,
                                                          Fid = food.Id,
                                                          FoodName = food.Name,
+                                                         FoodMoney = food.Price,
                                                          OrderDatetime = main.OrderDatetime,
                                                          PaidDateTime = main.PaidDateTime
                                                      }).ToListAsync();
@@ -155,10 +157,27 @@ namespace Homwwork_20220529.Controllers
             await BindBiewBag();
             return View(tblFoodOrder);
         }
-        public async Task<IActionResult> PayFoodOrder()
+        public async Task<IActionResult> PayFoodOrder(int id)
         {
-            await Task.Delay(1);
-            return View();
+            try
+            {
+                var Message = string.Empty;
+                var result = await new clsFoodOrder(_context).SetMoney(id);
+                if (result)
+                {
+                    Message = "扣款成功";
+                }
+                else
+                {
+                    Message = "請給我黃金:'(";
+                }
+                TempData["ErrorMessage"] = Message;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return RedirectToAction(nameof(Index));
         }
 
 
