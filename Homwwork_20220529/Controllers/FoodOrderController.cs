@@ -25,9 +25,26 @@ namespace Homwwork_20220529.Controllers
         // GET: FoodOrder
         public async Task<IActionResult> Index()
         {
-            return _context.TblFoodOrders != null ?
-                        View(await _context.TblFoodOrders.ToListAsync()) :
-                        Problem("Entity set 'HomeworkDBContext.TblFoodOrders'  is null.");
+            List<FoodOrderViewModel> result = await (from main in _context.TblFoodOrders
+                                                     join custom in _context.TblCustomers
+                                                     on main.CustomerId equals custom.Id
+                                                     join food in _context.TblFoods
+                                                     on main.Id equals food.Id
+                                                     select new FoodOrderViewModel
+                                                     {
+                                                         Id = main.Id,
+                                                         CustomerId = custom.Id,
+                                                         CustomerName = custom.Name,
+                                                         Fid = food.Id,
+                                                         FoodName = food.Name,
+                                                         OrderDatetime = main.OrderDatetime,
+                                                         PaidDateTime = main.PaidDateTime
+                                                     }).ToListAsync();
+            return View(result);
+
+            //return _context.TblFoodOrders != null ?
+            //            View(await _context.TblFoodOrders.ToListAsync()) :
+            //            Problem("Entity set 'HomeworkDBContext.TblFoodOrders'  is null.");
         }
 
         // GET: FoodOrder/Details/5
@@ -51,7 +68,11 @@ namespace Homwwork_20220529.Controllers
         // GET: FoodOrder/Create
         public IActionResult Create()
         {
-            return View();
+            var result = new TblFoodOrder()
+            {
+                OrderDatetime = DateTime.Now
+            };
+            return View(result);
         }
 
         // POST: FoodOrder/Create

@@ -1,12 +1,12 @@
-﻿@model IEnumerable<Homwwork_20220529.Models.TblFoodOrder>
+﻿@model IEnumerable<Homwwork_20220529.Models.FoodOrderViewModel>
 
 @{
     ViewData["Title"] = "顧客訂單列表";
 }
-<h1>Index</h1>
+<h1>顧客訂單列表</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">建立訂單</a>
 </p>
 <table class="table">
     <thead>
@@ -31,10 +31,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CustomerId)
+                    @Html.DisplayFor(modelItem => item.CustomerName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fid)
+                    @Html.DisplayFor(modelItem => item.FoodName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderDatetime)
@@ -43,9 +43,8 @@
                     @Html.DisplayFor(modelItem => item.PaidDateTime)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">編輯</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">刪除</a>
                 </td>
             </tr>
         }
