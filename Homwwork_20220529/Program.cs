@@ -1,10 +1,14 @@
 using Homwwork_20220529.Models;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSingleton<HtmlEncoder>(
+     HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                               UnicodeRanges.CjkUnifiedIdeographs }));
 builder.Services.AddSqlServer<HomeworkDBContext>(builder.Configuration.GetConnectionString("HomeworkConnection"));
 var app = builder.Build();
 
