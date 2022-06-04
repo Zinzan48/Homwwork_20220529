@@ -64,7 +64,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">編輯</a>
                     <a asp-action="PayFoodOrder" asp-route-id="@item.Id" class="btn btn-dark @(item.PaidDateTime!=null?"d-none":"")">扣款</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @(item.PaidDateTime!=null?"":"d-none")">刪除</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @(item.PaidDateTime!=null?"d-none":"")">刪除</a>
                 </td>
             </tr>
         }
