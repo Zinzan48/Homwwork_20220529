@@ -1,0 +1,86 @@
+﻿@model Homework_EntityFramework.Models.FoodViewModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+@using (Html.BeginForm("Search", "Food", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @*<label class="col-form-label">最低價格</label>*@
+                    <label class="col-form-label col-md-1">@Html.DisplayNameFor(model=>model._search.minPrice)</label>
+                    @*<input  type="number" class="form-control" />*@
+                    @Html.EditorFor(model=>model._search.minPrice,new {@class="form-control col-md-4"})
+
+                    @*<label class="col-form-label">最高價格</label>*@
+                    <label class="col-form-label col-md-1">@Html.DisplayNameFor(model=>model._search.maxPrice)</label>
+                    @*<input value="@Search.maxPrice" type="number" class="form-control" />*@
+                    @Html.EditorFor(model=>model._search.maxPrice,new {@class="form-control col-md-4"})
+                </div>
+
+                <div class="form-group">
+                    @*<label class="col-form-label">星星數</label>*@
+                    <label class="col-form-label col-md-1">@Html.DisplayNameFor(model=>model._search.star)</label>
+                    @*<input value="@Search.star" type="number" class="form-control" />*@
+                    @Html.EditorFor(model=>model._search.star,new {@class="form-control col-md-4"})
+                    <input type="submit" value="搜尋" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model._tblFood.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._tblFood.FirstOrDefault().Style)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._tblFood.FirstOrDefault().Stars)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._tblFood.FirstOrDefault().Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._tblFood.FirstOrDefault().Comment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model._tblFood)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Style)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stars)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<label>您搜尋結果共有 @Model._tblFood.Count() 筆</label>

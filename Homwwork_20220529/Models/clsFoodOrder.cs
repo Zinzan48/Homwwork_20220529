@@ -1,4 +1,6 @@
-﻿namespace Homwwork_20220529.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Homwwork_20220529.Models
 {
     public class clsFoodOrder : TblFoodOrder
     {
