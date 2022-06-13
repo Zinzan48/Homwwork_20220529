@@ -1,4 +1,4 @@
-﻿using Homwwork_20220529.Models;
+﻿using Homework_EntityFramework.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Homwwork_20220529.Models;
+using Homework_EntityFramework.Models;
 
-namespace Homwwork_20220529.Controllers
+namespace Homework_EntityFramework.Controllers
 {
     public class FoodOrderController : Controller
     {

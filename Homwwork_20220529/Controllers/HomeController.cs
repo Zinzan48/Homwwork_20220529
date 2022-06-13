@@ -1,8 +1,8 @@
-﻿using Homwwork_20220529.Models;
+﻿using Homework_EntityFramework.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Homwwork_20220529.Controllers
+namespace Homework_EntityFramework.Controllers
 {
     public class HomeController : Controller
     {
