@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Homwwork_20220529.Models
+namespace Homework_EntityFramework.Models
 {
     public partial class TblFood
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Homwwork_20220529.Models
+namespace Homework_EntityFramework.Models
 {
     public partial class HomeworkDBContext : DbContext
     {
@@ -17,6 +17,7 @@ namespace Homwwork_20220529.Models
         }
 
         public virtual DbSet<TblCustomer> TblCustomers { get; set; } = null!;
+        public virtual DbSet<TblFamily> TblFamilies { get; set; } = null!;
         public virtual DbSet<TblFood> TblFoods { get; set; } = null!;
         public virtual DbSet<TblFoodOrder> TblFoodOrders { get; set; } = null!;
 
@@ -24,7 +25,7 @@ namespace Homwwork_20220529.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=HomeworkDB;Trusted_Connection=True;");
+
             }
         }
 
@@ -39,6 +40,21 @@ namespace Homwwork_20220529.Models
                 entity.Property(e => e.Money).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TblFamily>(entity =>
+            {
+                entity.HasKey(e => e.FamilyId);
+
+                entity.ToTable("TblFamily");
+
+                entity.Property(e => e.FamilyId).HasColumnName("FamilyID");
+
+                entity.Property(e => e.Name).HasMaxLength(10);
+
+                entity.Property(e => e.NickName).HasMaxLength(15);
+
+                entity.Property(e => e.Title).HasMaxLength(10);
             });
 
             modelBuilder.Entity<TblFood>(entity =>

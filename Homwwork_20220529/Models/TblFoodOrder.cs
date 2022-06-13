@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Homwwork_20220529.Models
+namespace Homework_EntityFramework.Models
 {
     public partial class TblFoodOrder
     {
