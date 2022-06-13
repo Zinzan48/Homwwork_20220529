@@ -21,11 +21,16 @@ namespace Homework_EntityFramework.Controllers
         // GET: Family
         public async Task<IActionResult> Index()
         {
-              return _context.TblFamilies != null ? 
-                          View(await _context.TblFamilies.ToListAsync()) :
-                          Problem("Entity set 'HomeworkDBContext.TblFamilies'  is null.");
+            var result = await _context.TblFamilies.ToListAsync();
+            await BindSearch();
+            return View(result);
         }
-
+        private async Task BindSearch()
+        {
+            var result = await _context.TblFamilies.ToListAsync();
+            var select = result.Select(x => new SelectListItem { Value = x.Title });
+            ViewBag.TitleList = select;
+        }
         // GET: Family/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +48,25 @@ namespace Homework_EntityFramework.Controllers
 
             return View(tblFamily);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Search(FamilySearch search)
+        {
+            var family = await _context.TblFamilies.ToListAsync();
+            if (!string.IsNullOrEmpty(search.SearchName))
+            {
+                family = family.Where(x => x.Name.Contains(search.SearchName)).ToList();
+            }
+            if (search.SearchAge != 0)
+            {
+                family = family.Where(x => x.Age == search.SearchAge).ToList();
+            }
+            if (!string.IsNullOrEmpty(search.SearchTitle))
+            {
+                family = family.Where(x => x.Title.Contains(search.SearchTitle)).ToList();
+            }
+            await BindSearch();
+            return View(nameof(Index), family);
+        }
         // GET: Family/Create
         public IActionResult Create()
         {
@@ -149,14 +172,14 @@ namespace Homework_EntityFramework.Controllers
             {
                 _context.TblFamilies.Remove(tblFamily);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TblFamilyExists(int id)
         {
-          return (_context.TblFamilies?.Any(e => e.FamilyId == id)).GetValueOrDefault();
+            return (_context.TblFamilies?.Any(e => e.FamilyId == id)).GetValueOrDefault();
         }
     }
 }

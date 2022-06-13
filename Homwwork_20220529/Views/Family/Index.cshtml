@@ -2,13 +2,42 @@
 
 @{
     ViewData["Title"] = "Index";
+    var select = ViewBag.TitleList ?? new List<SelectListItem>();
 }
 
-<h1>Index</h1>
+<h1>家人</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">新增家人！</a>
 </p>
+@using (Html.BeginForm("Search", "Family", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+
+        <div class="col-md-4">
+            <label class="text-primary col-md-2 col-form-label">名稱</label>
+            <input name="searchName" class="form-control col-md-2" />
+        </div>
+        <div class=" col-md-4">
+            <label class="text-primary col-md-2 col-form-label">年齡</label>
+            <input name="searchAge" class="form-control  col-md-2" />
+        </div>
+        <div class="col-md-4">
+            <label class="text-danger col-md-2 col-form-label">稱謂</label>
+            <select class="form-control  col-md-2" name="searchTitle">
+                <option value="">全部</option>
+                @foreach (var item in select)
+                {
+                    <option>@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-warning">搜尋</button>
+        </div>
+    </div>
+}
 <table class="table">
     <thead>
         <tr>
@@ -28,26 +57,40 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NickName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FamilyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FamilyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FamilyId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NickName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.FamilyId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.FamilyId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.FamilyId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<script>
+    function submit() {
+        $.ajax({
+            url: @Url.Action(nameof(Search)),
+            method: "POST",
+            dataType: "JSON",
+            data:
+
+                success: function(res) { console.log(res) },
+            error: function(err) { console.log(err) },
+        });
+    }
+</script>
